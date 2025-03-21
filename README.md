@@ -1,8 +1,25 @@
 # Arduino-Automation
-•	Designed and implemented a web-based control system for a Celestron telescope using Arduino UNO and integrated Bluetooth 5.0 and WiFi modules.
-•	Created a real-time, bidirectional communication framework between the telescope hardware and web browser, utilizing ArduinoWebsockets and ESP8266/ESP32 libraries for efficient data transfer.
-•	Automated calibration processes, including flats and switch control, to streamline observation setups and improve research efficiency.
-•	Developed robust C++ code to manage HTTP requests and WebSocket connections, resolving bandwidth incompatibilities and ensuring system stability during extended operations.
-•	Conducted risk assessments and devised failure management protocols to address potential hardware crashes and software disruptions.
-•	Demonstrated the project’s applications in astronomical research, providing an accessible and scalable solution for remote observatory management.
 
+## Overview
+This project is a **web-based control system for a Celestron telescope**, developed using an **Arduino UNO**, **Bluetooth 5.0**, and **WiFi modules**. The system enables **real-time, bidirectional communication** between the telescope hardware and a web browser, streamlining astronomical observations and remote observatory management.
+
+## Features
+- **Web-Based Control System**: Designed and implemented a web interface for controlling the telescope remotely.
+- **Real-Time Communication**: Established efficient **bidirectional communication** using **ArduinoWebsockets** and **ESP8266/ESP32** libraries.
+- **Automated Calibration**: Implemented automated **flats and switch control** to enhance observation setup efficiency.
+- **Robust C++ Implementation**: Developed reliable C++ code to handle **HTTP requests and WebSocket connections**, mitigating bandwidth issues and ensuring system stability.
+- **Failure Management**: Conducted **risk assessments** and developed protocols to handle potential **hardware failures** and **software crashes**.
+- **Astronomical Research Applications**: Provided a scalable solution for **remote observatory management**, making astronomical research more accessible.
+
+## Technologies Used
+- **Arduino UNO**
+- **ESP8266/ESP32 WiFi Modules**
+- **Bluetooth 5.0**
+- **ArduinoWebsockets Library**
+- **C++ for embedded systems**
+- **HTML, JavaScript (for web interface)**
+- **HTTP & WebSocket Protocols**
+
+## System Architecture
+```plaintext
+[Web Interface] <---> [ESP8266/ESP32] <---> [Arduino UNO] <---> [Telescope Motors & Sensors]
