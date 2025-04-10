@@ -1,24 +1,26 @@
 // Filename: TelescopeControlSystem.ino
+// Author: Suthi de Silva, Dr. Dave Rosoff
 
+// Just importing the primary modules
 #include <Arduino.h>
-#include <ESP8266WiFi.h> // For ESP8266; replace with <WiFi.h> for ESP32
+#include <ESP8266WiFi.h> // For ESP8266
 #include <ArduinoWebsockets.h> // WebSockets library
 #include <Servo.h> // For controlling the telescope motors
 
 using namespace websockets;
 
-// WiFi credentials
+// WiFi credentials, maybe for .env
 const char* ssid = "YourWiFiSSID";
 const char* password = "YourWiFiPassword";
 
-// WebSocket server
+// WebSocket server (could be done with socket.io)
 const char* websocketServer = "wss://yourserver.com";
 WebsocketsClient wsClient;
 
 // Pin definitions
-const int servoPin1 = 9; // Example servo pin for telescope control
+const int servoPin1 = 9; 
 const int servoPin2 = 10;
-const int calibrationSwitchPin = 7; // Example pin for calibration switch
+const int calibrationSwitchPin = 7; 
 
 // Servo objects
 Servo servo1;
@@ -29,10 +31,8 @@ bool isCalibrating = false;
 bool systemStable = true;
 
 void setup() {
-  // Initialize Serial Monitor
   Serial.begin(115200);
 
-  // Connect to WiFi
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
@@ -40,44 +40,41 @@ void setup() {
   }
   Serial.println("WiFi connected!");
 
-  // Initialize WebSocket connection
   wsClient.onMessage(onWebSocketMessage);
   wsClient.onEvent(onWebSocketEvent);
   wsClient.connect(websocketServer);
 
-  // Initialize hardware components
   servo1.attach(servoPin1);
   servo2.attach(servoPin2);
   pinMode(calibrationSwitchPin, OUTPUT);
 
-  // Run initial calibration
   runCalibration();
 }
 
 void loop() {
-  // Handle WebSocket events
   wsClient.poll();
 
-  // Simulate telescope control based on received commands
+  // main call to simulate telescope control based on received commands
   if (isCalibrating) {
     automateCalibration();
   }
 
-  // Failure management
+  // Failure management (main fuse system for us)
   if (!systemStable) {
     handleFailure();
   }
 }
 
-// Function to handle incoming WebSocket messages
+// This is function with conditionals with to handle incoming WebSocket messages
+// tested partially though, but works
 void onWebSocketMessage(WebsocketsMessage message) {
   Serial.println("Message received: " + message.data());
 
-  // Parse and execute commands
+  // Parse and execute commands 
   if (message.data() == "MOVE_UP") {
-    moveTelescope(0, -10); // Example move upward
+    moveTelescope(0, -10); 
   } else if (message.data() == "MOVE_DOWN") {
-    moveTelescope(0, 10); // Example move downward
+    moveTelescope(0, 10);
   } else if (message.data() == "START_CALIBRATION") {
     isCalibrating = true;
   } else if (message.data() == "STOP_CALIBRATION") {
@@ -85,7 +82,7 @@ void onWebSocketMessage(WebsocketsMessage message) {
   }
 }
 
-// Function to handle WebSocket events
+// This is the function to handle WebSocket events
 void onWebSocketEvent(WebsocketsEvent event, String data) {
   if (event == WebsocketsEvent::ConnectionOpened) {
     Serial.println("WebSocket connection opened!");
@@ -97,7 +94,7 @@ void onWebSocketEvent(WebsocketsEvent event, String data) {
   }
 }
 
-// Function to move the telescope
+// function to move the telescope
 void moveTelescope(int x, int y) {
   int newServo1Pos = constrain(servo1.read() + x, 0, 180);
   int newServo2Pos = constrain(servo2.read() + y, 0, 180);
@@ -108,7 +105,7 @@ void moveTelescope(int x, int y) {
   Serial.println("Telescope moved to position: X=" + String(newServo1Pos) + ", Y=" + String(newServo2Pos));
 }
 
-// Function to automate calibration
+// function to automate calibration
 void automateCalibration() {
   Serial.println("Running calibration...");
   digitalWrite(calibrationSwitchPin, HIGH);
@@ -118,7 +115,7 @@ void automateCalibration() {
   Serial.println("Calibration completed!");
 }
 
-// Function to handle failures
+// function to handle failures
 void handleFailure() {
   Serial.println("System failure detected. Reconnecting...");
   wsClient.close();
@@ -127,7 +124,7 @@ void handleFailure() {
   systemStable = true;
 }
 
-// Initial calibration setup
+// Still in testing phase!! ,initial calibration setup
 void runCalibration() {
   Serial.println("Performing initial calibration...");
   automateCalibration();
