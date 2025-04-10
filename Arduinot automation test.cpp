@@ -1,5 +1,5 @@
 // Filename: TelescopeControlSystem.ino
-// Author: Suthi de Silva, Dr. Dave Rosoff
+// Author: Suthi de Silva, Dr. Jim Dull
 
 // Just importing the primary modules
 #include <Arduino.h>
